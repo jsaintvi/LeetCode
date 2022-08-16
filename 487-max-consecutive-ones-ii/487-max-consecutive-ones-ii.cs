@@ -1,19 +1,30 @@
 public class Solution {
     public int FindMaxConsecutiveOnes(int[] nums) {
-        int ans = 0;
+        int left = 0;
+        int right = 0;
         
-        for(int i = 0; i < nums.Length; i++) {
-            int numZeroes = 0;
-            for(int j = i; j < nums.Length; j++ ) {
-                if(nums[j] == 0)
-                    numZeroes++;
-                
-                if(numZeroes <= 1){ // can flip at most 1 zero
-                    ans = Math.Max(ans, j - i + 1);
+        int numZerosSeen = 0;
+        int longestSequence = 0;
+        int n = nums.Length;
+        
+        while(right < n) {
+            if(nums[right] == 0)
+                numZerosSeen++;
+            
+
+            while(numZerosSeen ==2) { // INVALID state: contract window 
+                if(nums[left] == 0){
+                    numZerosSeen--;
                 }
+                left++;
             }
+            
+            longestSequence = Math.Max(longestSequence, right - left + 1);
+            
+            // expand window
+            right++;
         }
         
-        return ans;
+        return longestSequence;
     }
 }
