@@ -1,48 +1,42 @@
 public class Solution {
     public int Search(int[] nums, int target) {
     
-        return Search(nums, 0, nums.Length - 1, target);
+        int low = 0;
+        int high = nums.Length -1;
         
-    }
-    
-    
-    private int Search(int[] nums, int low, int high, int key)
-    {
-        if (low > high)
-        {
-            return -1;
-        }
-
-        int mid = (low + high) / 2;
-
-        if (nums[mid] == key)
-            return mid;
-        
-
-        if (key == nums[low])
-            return low;
-        if (key == nums[high])
-            return high;
-
-        // array[low...mid] is sorted
-        if (nums[low] < nums[mid])
-        {
-            if (key > nums[low] && key < nums[mid])
+        while(low <= high) {
+            int mid = low + (high - low)/2;
+            
+            if(nums[mid] == target)
+                return mid;
+            
+            if(nums[low] == target)
+                return low;
+            
+            if(nums[high] == target)
+                return high;
+            
+            // array[low...mid] is sorted
+            if (nums[low] < nums[mid])
             {
-                return Search(nums, low, mid - 1, key);
+                if (target > nums[low] && target < nums[mid])
+                {
+                    high = mid-1;
+                }else{
+                    low = mid + 1;
+                }
+            }else{
+                // array[mid...high] must be sorted then
+                if (target >= nums[mid] && target <= nums[high])
+                {
+                    low = mid + 1;
+                }else{
+                    high = mid-1;
+                }
             }
-
-            return Search(nums, mid + 1, high, key);
         }
-
-        // array[mid...high] must be sorted then
-        if (key >= nums[mid] && key <= nums[high])
-        {
-            return Search(nums, mid + 1, high, key);
-        }
-
-        return Search(nums, low, mid - 1, key);
-    }
-    
-    
+        
+        return -1;
+        
+    }    
 }
