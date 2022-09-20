@@ -13,13 +13,35 @@
  */
 public class Solution {
     public int ClosestValue(TreeNode root, double target) {
-        List<int> values = new();
-        InOrder(root, (x) => values.Add(x));
+//         List<int> values = new();
+//         InOrder(root, (x) => values.Add(x));
         
-        var comp = new ClosestIntComparer(target);
-        values.Sort(comp);
+//         var comp = new ClosestIntComparer(target);
+//         values.Sort(comp);
         
-        return values.First();
+//         return values.First();
+        
+        Stack<TreeNode> stack = new ();
+        
+        int pred = int.MinValue;
+        
+        while(stack.Count > 0 || root != null) {
+            while(root != null) {
+                stack.Push(root);
+                root = root.left;
+            }
+            
+            root = stack.Pop();
+            
+            if(pred <= target && target < root.val) {
+                return Math.Abs(pred-target) < Math.Abs(root.val - target) ? pred : root.val;
+            }
+            
+            pred = root.val;
+            root = root.right;
+        }
+        
+        return pred;
     }
     
     private void InOrder(TreeNode node, Action<int> action) {
