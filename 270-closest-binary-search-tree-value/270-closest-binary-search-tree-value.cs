@@ -21,7 +21,22 @@ public class Solution {
         
 //         return values.First();
         
-        Stack<TreeNode> stack = new ();
+        int closest = root.val;
+        
+        while(root != null) {
+            if(Math.Abs(root.val - target) < Math.Abs(closest - target)) { // found closer val than previously known
+                closest = root.val;
+            }
+            
+            root = target < root.val ? root.left : root.right;
+        }
+        
+        return closest;
+
+    }
+    
+    private int ClosestValueV2(TreeNode root, double target) {
+                Stack<TreeNode> stack = new ();
         
         int pred = int.MinValue;
         
