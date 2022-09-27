@@ -1,5 +1,5 @@
 public class KthLargest {
-    private readonly PriorityQueue<int,int> pq = new ();
+    private readonly PriorityQueue<int,int> pq = new (); // min heap
     private readonly int pqSize;
     public KthLargest(int k, int[] nums) {
         this.pqSize = k;
