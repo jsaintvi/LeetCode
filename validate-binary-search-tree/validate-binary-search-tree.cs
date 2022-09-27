@@ -13,22 +13,25 @@
  */
 public class Solution {
     public bool IsValidBST(TreeNode root) {
-        if(root == null || (root.left == null && root.right == null) )
-            return true;
-        
-        return IsValidBST(root, null, null);
-    }
-    
-    private bool IsValidBST(TreeNode root,  int? min, int? max) {
         if(root == null)
             return true;
         
-        if((min.HasValue && root.val <= min.Value) || (max.HasValue && root.val >= max.Value) ){
-            //Console.WriteLine($"Failed check for {min} < {root.val} < {max}");
-            return false;
-
-        }
+        List<int> nodeValues = new();
+        InOrder(root, (x)=> nodeValues.Add(x));
         
-        return IsValidBST(root.left, min, root.val) && IsValidBST(root.right, root.val, max);
+        int n = nodeValues.Count;
+        for(int i = 0; i < n - 1; i++){
+            if(nodeValues[i] >= nodeValues[i+1]) return false;
+        }
+        return true;
+    }
+    
+    private void InOrder(TreeNode root, Action<int> process)
+    {
+        if(root==null)
+            return;
+        InOrder(root.left, process);
+        process(root.val);
+        InOrder(root.right, process);
     }
 }
