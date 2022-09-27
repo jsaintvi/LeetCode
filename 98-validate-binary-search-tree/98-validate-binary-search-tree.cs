@@ -16,23 +16,19 @@ public class Solution {
         if(root == null || (root.left == null && root.right == null) )
             return true;
         
-        HashSet<int> seen = new();
-        return IsValidBST(root, null, null, seen);
+        return IsValidBST(root, null, null);
     }
     
-    private bool IsValidBST(TreeNode root,  int? min, int? max, HashSet<int> seen) {
+    private bool IsValidBST(TreeNode root,  int? min, int? max) {
         if(root == null)
             return true;
         
-        if(seen.Contains(root.val)) {Console.WriteLine($"Seen num {root.val}"); return false;}
         if((min.HasValue && root.val <= min.Value) || (max.HasValue && root.val >= max.Value) ){
-            Console.WriteLine($"Failed check for {min} < {root.val} < {max}");
+            //Console.WriteLine($"Failed check for {min} < {root.val} < {max}");
             return false;
 
         }
         
-        seen.Add(root.val);
-
-        return IsValidBST(root.left, min, root.val, seen) && IsValidBST(root.right, root.val, max, seen);
+        return IsValidBST(root.left, min, root.val) && IsValidBST(root.right, root.val, max);
     }
 }
