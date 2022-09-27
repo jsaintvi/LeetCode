@@ -9,24 +9,18 @@
  */
 public class Solution {
     public TreeNode InorderSuccessor(TreeNode root, TreeNode p) {
+        TreeNode succ = null;
         
-        List<int> data = new();
-        InOrder(root, (x)=> data.Add(x));
-        
-        int n = data.Count;
-        for(int i = 0; i < n -1; i++) {
-            if(data[i] == p.val){
-                return new TreeNode(data[i+1]);
+        while(root!=null)
+        {
+            if(p.val>=root.val)
+                root = root.right;
+            else
+            {
+                succ = root;
+                root = root.left;
             }
         }
-        
-        return null;
-    }
-    
-    private void InOrder(TreeNode node, Action<int> process){
-        if(node == null) return;
-        InOrder(node.left, process);
-        process(node.val);
-        InOrder(node.right, process); 
+        return succ;
     }
 }
