@@ -13,18 +13,14 @@
  */
 public class Solution {
     public TreeNode InsertIntoBST(TreeNode root, int val) {
-        return Add(root, val);
-    }
-    
-    private TreeNode Add(TreeNode node, int val) {
-        if(node == null) { // leaf
-            node = new TreeNode(val);
-        }else if(val < node.val) {
-            node.left = Add(node.left, val);
+        if(root == null) { // leaf
+            root = new TreeNode(val);
+        }else if(val < root.val) {
+            root.left = InsertIntoBST(root.left, val);
         }else{
-            node.right = Add(node.right, val);
+            root.right = InsertIntoBST(root.right, val);
         }
         
-        return node;
+        return root;
     }
 }
