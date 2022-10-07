@@ -12,22 +12,28 @@
  * }
  */
 public class Solution {
+    
     public bool IsBalanced(TreeNode root) {
-
-        return GetHeight(root) != -1;
+        if (root == null) return true;
+        
+        bool isBalanced = true;
+        Dfs(root, ref isBalanced);
+       // Console.WriteLine($"Height of tree {height}");
+        return isBalanced;
     }
     
-    
-    // bottom up 
-    private int GetHeight(TreeNode node){
-        if(node == null) return 0;
+    private int Dfs(TreeNode node, ref bool isBalanced) {
+        if (node == null)
+            return 0;
         
-        int left = GetHeight(node.left);
-        int right = GetHeight(node.right);
+        int leftHeight = Dfs(node.left, ref isBalanced);
+        int rightHeight = Dfs(node.right, ref isBalanced);
         
-        var heightDiff = Math.Abs(left - right);
-        if(heightDiff > 1 || left == -1 || right == -1) return -1;
+        if (Math.Abs(leftHeight - rightHeight) > 1)
+        {
+            isBalanced = false;
+        }
         
-        return Math.Max(left, right) + 1;
+        return Math.Max(leftHeight, rightHeight) + 1;
     }
 }
