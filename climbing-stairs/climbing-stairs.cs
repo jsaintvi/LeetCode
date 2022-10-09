@@ -1,22 +1,16 @@
 public class Solution {
     public int ClimbStairs(int n) {
-        int[] memo = new int[n+1];
-        
-        return ClimbStairs(0, n, memo);
-    }
-    
-    private int ClimbStairs(int currStep , int n, int[] memo) {
-        if(currStep > n)
-            return 0;
-        
-        if(currStep == n)
+        if(n==1)
             return 1;
         
-        if(memo[currStep] > 0)
-            return memo[currStep];
+        int[] dp = new int[n+1];
+        dp[1] = 1;
+        dp[2] = 2;
         
-        memo[currStep] = ClimbStairs(currStep + 1, n, memo) + ClimbStairs(currStep + 2, n, memo);
+        for(int i = 3; i <= n; i++){
+            dp[i] = dp[i-1] + dp[i-2];
+        }
         
-        return memo[currStep];
+        return dp[n];
     }
 }
