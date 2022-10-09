@@ -13,17 +13,30 @@
  */
 public class Solution {
     public bool IsValidBST(TreeNode root) {
+        // inorder traversal
+        Stack<TreeNode> st = new();
+        TreeNode prev = null;
         
-        return IsValidBST(root, null, null);
-    }
-    
-    private bool IsValidBST(TreeNode root, TreeNode low, TreeNode upper) {
-        if(root == null)
-            return true;
+        while(st.Count > 0 || root != null) {
+            // dig as far left
+            while(root != null) {
+                st.Push(root);
+                root = root.left;
+            }
+            
+            root = st.Pop();
+            
+            if(prev != null && root.val <= prev.val) {
+                return false;
+            }
+            
+            prev = root;
+            
+            // go right once
+            root = root.right;
+                
+        }
         
-        if( (low != null && root.val <= low.val) || (upper != null && root.val >= upper.val) )
-            return false;;
-        
-        return IsValidBST(root.left, low, root) && IsValidBST(root.right, root, upper);
+        return true;
     }
 }
