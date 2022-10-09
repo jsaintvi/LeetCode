@@ -13,25 +13,17 @@
  */
 public class Solution {
     public bool IsValidBST(TreeNode root) {
+        
+        return IsValidBST(root, null, null);
+    }
+    
+    private bool IsValidBST(TreeNode root, TreeNode low, TreeNode upper) {
         if(root == null)
             return true;
         
-        List<int> nodeValues = new();
-        InOrder(root, (x)=> nodeValues.Add(x));
+        if( (low != null && root.val <= low.val) || (upper != null && root.val >= upper.val) )
+            return false;;
         
-        int n = nodeValues.Count;
-        for(int i = 0; i < n - 1; i++){
-            if(nodeValues[i] >= nodeValues[i+1]) return false;
-        }
-        return true;
-    }
-    
-    private void InOrder(TreeNode root, Action<int> process)
-    {
-        if(root==null)
-            return;
-        InOrder(root.left, process);
-        process(root.val);
-        InOrder(root.right, process);
+        return IsValidBST(root.left, low, root) && IsValidBST(root.right, root, upper);
     }
 }
