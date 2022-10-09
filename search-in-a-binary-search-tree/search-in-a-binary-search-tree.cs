@@ -13,21 +13,12 @@
  */
 public class Solution {
     public TreeNode SearchBST(TreeNode root, int val) {
+        if(root == null || root.val == val)
+            return root;
         
-        TreeNode curr = root;
-        while(curr != null) {
-            if(curr.val == val)
-                return curr;
-            
-            if(val < curr.val) {
-                curr = curr.left;
-            } else {
-                curr = curr.right;
-            } 
-        }
-
-        
-        // if we make it here, val not in tree
-        return null;
+        if(val < root.val)
+            return SearchBST(root.left, val);
+        else
+            return SearchBST(root.right, val);
     }
 }
