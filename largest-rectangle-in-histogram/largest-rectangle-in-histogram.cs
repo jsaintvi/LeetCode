@@ -7,6 +7,15 @@ public class Solution {
         Stack<int> st = new();
         st.Push(-1); // mark end of stack
         
+        /*
+        
+        So the algorithm boils down to:
+
+            Maintain a stack such that heights are always in increasing order.
+            When we see a column that's lower than what's on the stack
+            Use it as the right side and compute all the possible rectangles using what's on the stack to derive left side and height.
+            Remove each considered rectangle / column from the stack
+        */
         for(int i = 0; i < n; i++) {
             while(st.Peek() != -1 && heights[st.Peek()] >= heights[i]) {
                 int curr_height = heights[st.Peek()];
