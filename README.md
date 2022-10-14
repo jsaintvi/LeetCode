@@ -1,2 +1,4 @@
 # LeetCode
-Collection of LeetCode questions to ace the coding interview! - Created using [LeetHub](https://github.com/QasimWani/LeetHub)
+Welcome to problem solving land!!!
+
+The goal is to having fun learning and trying to solve some leetcode challenges
