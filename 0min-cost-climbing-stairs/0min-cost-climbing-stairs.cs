@@ -1,24 +1,18 @@
 public class Solution {
     public int MinCostClimbingStairs(int[] cost) {
-        int n = cost.Length;
 
-        return Dp(n, cost, new Dictionary<int,int>());
-    }
-    
-    private int Dp(int index, int[]cost, Dictionary<int,int> cache) {
-        // base cases : to take stair 0 or stair 1 cost 0
-        if(index <= 1)
-            return 0;
+        int[] dp = new int[cost.Length+1]; // +1 to treat the top floor as the step to reach.
+        dp[0] = 0;
+        dp[1] = 0;
         
-        if(cache.ContainsKey(index))
-            return cache[index];
+        int n = dp.Length;
+        for(int i = 2; i < n; i++) {
+            int takeOneStep = cost[i-1] + dp[i-1];
+            int takeTwoStep = cost[i-2] + dp[i-2];
+            
+            dp[i] = Math.Min(takeOneStep, takeTwoStep);
+        }
         
-        int takeOneStep = cost[index-1] + Dp(index-1, cost, cache);
-        int takeTwoStep = cost[index-2] + Dp(index-2, cost, cache);
-
-        cache.Add(index, Math.Min(takeOneStep, takeTwoStep));
-        
-        return cache[index];
-        
+        return dp[n-1];
     }
 }
