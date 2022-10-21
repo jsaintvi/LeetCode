@@ -4,18 +4,19 @@ public class Solution {
         int maxNum = FindMax(nums);
         
         int[] maxPoints = new int[maxNum + 1];
-        maxPoints[0] = 0;
-        maxPoints[1] =  points.ContainsKey(1) ? points[1] : 0;
+        int twoBack = 0;
+        int oneBack =  points.ContainsKey(1) ? points[1] : 0;
         
         for(int num = 2; num < maxPoints.Length; num++) {
-            int gain = points.ContainsKey(num) ? points[num] : 0;
-            int notTakeCurrNum = maxPoints[num-1];
-            int takeCurrNum = maxPoints[num-2] + gain;
+            int temp = oneBack;
             
-            maxPoints[num] = Math.Max(notTakeCurrNum, takeCurrNum);
+            int gain = points.ContainsKey(num) ? points[num] : 0;
+            
+            oneBack = Math.Max(oneBack, twoBack + gain);
+            
+            twoBack = temp;
         }
-        
-        return maxPoints[maxPoints.Length -1];
+        return oneBack;
     }
     
     private Dictionary<int,int> ComputePoints(int[]nums){
