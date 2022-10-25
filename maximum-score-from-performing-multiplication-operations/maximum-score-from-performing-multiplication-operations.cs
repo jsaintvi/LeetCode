@@ -13,17 +13,16 @@ public class Solution {
         
         this.memo = new int[multiplierLen, multiplierLen];
 
-        return MaximumScore(0, 0);
+        return MaximumScore(0, 0, numLen-1);
     }
     
-    private int MaximumScore(int pos, int leftIdx) {
+    private int MaximumScore(int pos, int leftIdx, int rightIdx) {
         if(pos == multiplierLen) return 0;
         
         int mult = multipliers[pos];
-        int right = numLen-1 - (pos - leftIdx);
         if(memo[pos,leftIdx] == 0 ){
-            int takeLeft = mult * nums[leftIdx] + MaximumScore(pos + 1, leftIdx+1);
-            int takeRight = mult * nums[right] + MaximumScore(pos + 1, leftIdx);
+            int takeLeft = mult * nums[leftIdx] + MaximumScore(pos + 1, leftIdx+1, rightIdx);
+            int takeRight = mult * nums[rightIdx] + MaximumScore(pos + 1, leftIdx, rightIdx-1);
             memo[pos,leftIdx] = Math.Max(takeLeft,takeRight );
         }
         
