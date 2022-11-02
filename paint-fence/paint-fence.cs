@@ -1,22 +1,18 @@
 public class Solution {
     public int NumWays(int n, int k) {
-        Dictionary<int,int> memo = new();
-        return Dp(n, k, memo);
-    }
-    
-    private int Dp(int i, int k, Dictionary<int,int> memo) {
-        if(i==1)
+       
+        if(n==1)
             return k;
-        if(i==2) 
+        if(n==2)
             return k*k;
         
-        if(memo.ContainsKey(i)){
-            return memo[i];
+        int[] totalWays = new int[n+1];
+        totalWays[1] = k;
+        totalWays[2] = k*k;
+        
+        for(int i = 3; i < totalWays.Length; i++) {
+            totalWays[i] = (k-1) * (totalWays[i-1] + totalWays[i-2]);
         }
-        
-        int val =  (k-1) * ( Dp(i-1, k, memo) + Dp(i-2, k, memo));
-        memo.Add(i, val);
-        
-        return memo[i];
+        return totalWays[totalWays.Length-1];
     }
 }
