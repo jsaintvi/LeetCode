@@ -6,13 +6,15 @@ public class Solution {
         if(n==2)
             return k*k;
         
-        int[] totalWays = new int[n+1];
-        totalWays[1] = k;
-        totalWays[2] = k*k;
+        int backTwoSteps = k;
+        int backOneStep = k*k;
         
-        for(int i = 3; i < totalWays.Length; i++) {
-            totalWays[i] = (k-1) * (totalWays[i-1] + totalWays[i-2]);
+        for(int i = 3; i <= n; i++) {
+            int curr = (k-1) * (backOneStep + backTwoSteps);;
+            backTwoSteps = backOneStep;
+            backOneStep = curr;
+            
         }
-        return totalWays[totalWays.Length-1];
+        return backOneStep;
     }
 }
