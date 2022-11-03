@@ -1,35 +1,30 @@
 public class Solution {
     public int NumDecodings(string s) {
-        Dictionary<int,int> memo = new();
-        return Dp(s, 0, memo);
-    }
-    
-    private int Dp(string s, int currIdx, Dictionary<int,int> memo) {
-        if(memo.ContainsKey(currIdx))
-            return memo[currIdx];
-        
-        // reach end of string
-        if(currIdx == s.Length) {
-            return 1;
-        }
-        
-        if(s[currIdx] == '0') { // unable to decode if starts with 0
+        if(string.IsNullOrEmpty(s)) 
             return 0;
+        
+        
+        int n = s.Length;
+        int[] dp = new int[n+1]; // num ways to decode for substring of s from index 0 to index index - 1
+        dp[0] = 1; 
+        
+        // if first char is 0 (invalid) then no decode is possible else 1 way
+        dp[1] = s[0] == '0' ? 0 : 1;
+        
+        for(int i = 2; i < dp.Length; i++) {
+            // check if can decode using 1 digit1
+            if(s[i-1] != '0') {
+                dp[i] = dp[i-1];
+            }
+            
+            // check if can decode using 2 digits
+            int two_digit = int.Parse(s.Substring(i-2, 2));
+            if(two_digit >= 10 && two_digit <= 26) {
+                dp[i] += dp[i-2];
+            }
+            
         }
         
-        if(currIdx == s.Length - 1) {
-            return 1;
-        }
-        
-        int ans = Dp(s, currIdx+1, memo); // consider decoding using one digit
-        
-        int currNum = int.Parse(s.Substring(currIdx, 2)); // looking at 2 digits
-        
-        if(currNum <= 26) {
-            ans += Dp(s, currIdx+2, memo); // consider decoding using one digit
-        }
-        
-        memo.Add(currIdx, ans);
-        return ans;
+        return dp[n];
     }
 }
