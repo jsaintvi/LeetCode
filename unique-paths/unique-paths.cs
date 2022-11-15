@@ -1,16 +1,20 @@
 public class Solution {
     public int UniquePaths(int m, int n) {
-        int[,] dp = new int[m, n];
+       int[,] memo = new int[m,n];
         
- 
-        for(int row = 0; row < m; row++)
-            for(int col = 0; col < n; col++)
-                dp[row,col] = 1;
+        return Dp(m-1, n-1, memo);
+    }
+    
+    private int Dp(int m, int n, int[,] memo){
+        if(m == 0 || n == 0)
+        {
+            memo[m,n]=1;
+            return memo[m,n];
+        }
         
-        for(int row = 1; row < m; row++ )
-            for(int col = 1; col < n; col++)
-                dp[row, col] = dp[row-1, col] + dp[row, col - 1];
+        if(memo[m,n] != 0)return memo[m,n];
         
-        return dp[m-1,n-1];
+        memo[m,n]= Dp(m-1, n, memo) + Dp(m, n-1, memo);
+        return memo[m,n];
     }
 }
