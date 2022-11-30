@@ -1,19 +1,21 @@
 public class Solution {
     public int MaxProfit(int[] prices, int fee) {
-
-        // initial profit and hold on day 0
-        int cash = 0; 
-        int hold = -prices[0];
+        // on day 0
+        var buyPrev = -prices[0]; // buy
+        var notBuyPrev = 0; //sell
         
-        for(int i = 1; i < prices.Length; i++) {
-            // buy or sell
-            cash = Math.Max(cash, hold + prices[i] - fee);
+        for(var i = 1; i < prices.Length; i++)
+        {  
+            var price = prices[i];
             
-            // continue holding stock or sell
-            hold = Math.Max(hold, cash - prices[i]);
+            var buyStock = notBuyPrev - price;
+            var sellStock = price + buyPrev - fee;
+            
+            buyPrev = Math.Max(buyPrev, buyStock);
+            notBuyPrev = Math.Max(notBuyPrev, sellStock);
         }
         
-        return cash;
+        return Math.Max(buyPrev, notBuyPrev);
         
     }
 }
