@@ -1,22 +1,28 @@
 public class MyCircularQueue {
-    int[] data;
-    int head_pos;
-    int queue_size; // num of elems in queue
+    
+    Node head;
+    Node tail;
 
+    int queue_size;
     int capacity; // num elems that queue can contain
 
     public MyCircularQueue(int k) {
         queue_size = 0;
-
         capacity = k;
-        data = new int[k];
-        head_pos = 0;
     }
     
     public bool EnQueue(int value) {
         if(IsFull()) return false;
         
-        data[(head_pos + queue_size) % capacity] = value;
+        var newNode = new Node(value);
+
+        if(IsEmpty())
+        {
+            head = tail = newNode;
+        }else{
+            tail.NextNode = newNode;
+            tail = tail.NextNode;
+        }
         queue_size++;
 
         return true;
@@ -26,7 +32,7 @@ public class MyCircularQueue {
     public bool DeQueue() {
         if(IsEmpty()) return false;
         
-        this.head_pos = (this.head_pos +1) % capacity;
+        this.head = this.head.NextNode;
         queue_size--;
 
         return true;
@@ -35,13 +41,13 @@ public class MyCircularQueue {
     public int Front() {
         if(IsEmpty()) return -1;
         
-        return data[head_pos];
+        return head.Value;
     }
     
     public int Rear() {
         if(IsEmpty()) return -1;
         
-        return data[(head_pos + queue_size -1) % capacity];
+        return tail.Value;
     }
     
     public bool IsEmpty() {
@@ -50,6 +56,16 @@ public class MyCircularQueue {
     
     public bool IsFull() {
         return queue_size == capacity;
+    }
+
+    private class Node{
+        public int Value{get; set;}
+        public Node NextNode {get;set;}
+
+        public Node(int val){
+            this.Value = val;
+            this.NextNode = null;
+        }
     }
 }
 
