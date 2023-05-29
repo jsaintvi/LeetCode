@@ -1,14 +1,14 @@
 public class Solution {
     public int NumIslands(char[][] grid) {
         int count=0;
-        for(int i =0; i < grid.Length; i++)
+        for(int row =0; row < grid.Length; row++)
         {
-            for(int j = 0; j < grid[0].Length; j++)
+            for(int col = 0; col < grid[0].Length; col++)
             {
-                if(grid[i][j] == '1')
+                if(grid[row][col] == '1')
                 {
                     count++;
-                    DFS(grid, i, j);
+                    DFS(grid, row, col);
                 }
             }
         }
