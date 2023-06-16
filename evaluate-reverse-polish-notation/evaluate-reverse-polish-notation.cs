@@ -3,29 +3,20 @@ public class Solution {
      Stack<int> st =new();
         
         foreach(string token in tokens) {
-            
-            int first = 1;
-            int second = 1;
             switch(token) {
                 case "+" :
-                    first = (int)st.Pop();
-                    second = (int)st.Pop();
-                    st.Push(Add(second, first));
+                    st.Push(st.Pop() + st.Pop());
                     break;
                 case "-":
-                    first = (int)st.Pop();
-                    second = (int)st.Pop();
-                    st.Push(Substract(second, first));
+                    st.Push( - st.Pop() + st.Pop());
                     break;
                 case "*":
-                    first = (int)st.Pop();
-                    second = (int)st.Pop();
-                    st.Push(Multiply(second, first));
+                    st.Push(st.Pop() * st.Pop());
                     break;
                 case "/":
-                    first = (int)st.Pop();
-                    second = (int)st.Pop();
-                    st.Push(Divide(second, first));
+                    int numerator = st.Pop();
+                    int denominator = st.Pop();
+                    st.Push(denominator / numerator);
                     break;
                 default:
                     st.Push(int.Parse(token));
@@ -33,25 +24,6 @@ public class Solution {
             }
         }
         
-        Console.WriteLine($"Stack contains {st.Count} elems");
         return st.Pop();
-    }
-    
-    
-    private int Add(int x, int y) {
-        return x+y;
-    }
-    
-    private int Substract(int x, int y) {
-        return x - y;
-    }
-    
-    private int Multiply(int x, int y)
-    {
-        return x*y;
-    }
-    
-    private int Divide(int x, int y){
-        return x/y;
     }
 }
