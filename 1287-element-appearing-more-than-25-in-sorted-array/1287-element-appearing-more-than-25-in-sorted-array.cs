@@ -1,22 +1,28 @@
 public class Solution {
     public int FindSpecialInteger(int[] arr) {
-        Dictionary<int, int> map = new();
-        
-        int len = arr.Length;
-        foreach(var num in arr) {
-            if(!map.ContainsKey(num))
-                map.Add(num, 0);
-            
-            map[num]++;
-        }
-        
-        foreach(var kv in map)
+        var n = arr.Length;
+        var number = arr[0];
+        var numberOfOccurance = 1;
+        var percent = 1.0 / 4.0 * n;
+
+        for (int i = 1; i < n; ++i)
         {
-            Console.WriteLine($"Key: {kv.Key} - Val : {kv.Value}. Ratio: {kv.Value / (len * 1.0)}");
-            if(kv.Value  / (len * 1.0) > 0.25)
-                return kv.Key;
+            if (numberOfOccurance > percent)
+            {
+                return number;
+            }
+            
+            if (arr[i] == number)
+            {
+                ++numberOfOccurance;
+            }
+            else
+            {
+                // reset as its 'new' number
+                numberOfOccurance = 1;
+                number = arr[i];
+            }
         }
-        
-        return -1;
+        return number;
     }
 }
