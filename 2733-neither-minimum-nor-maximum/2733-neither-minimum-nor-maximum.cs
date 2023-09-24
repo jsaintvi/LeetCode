@@ -1,44 +1,13 @@
 public class Solution {
     public int FindNonMinOrMax(int[] nums) {
-        int ans = -1;
-        
-        /*
-            min = -1   1
-            max = -1   4
-            
-            
-        
-        */
-        
-        if(nums.Length <= 2) return -1;
-        
-        
-        int min = Math.Min(nums[0], nums[1]);
-        
-        int max = Math.Max(nums[0], nums[1]);
-        
-        for(int i = 2; i < nums.Length; i++) {
-            int currNum = nums[i];
-            // Console.WriteLine($"Curr Num: {currNum} - Min {min} - MAX {max}. Updated ans {ans}");
+     if (nums.Length < 3) return -1;
 
-            // perform update
-            if(currNum < min)
-            {
-                ans = min;
+        var (a, b, c) = (nums[0], nums[1], nums[2]);
+        var min = Math.Min(Math.Min(a, b), c);
+        var max = Math.Max(Math.Max(a, b), c);
 
-                min = currNum;
-            }else if(currNum > max)
-            {
-                ans = max;
-
-                max = currNum;
-            } else{
-                ans = currNum;
-            }
-            
-            // Console.WriteLine($"UPDATED Curr Num: {currNum} - Min {min} - MAX {max}. Updated ans {ans}");
-        }
-        
-        return ans;
+        if (a != min && a != max) return a;
+        if (b != min && b != max) return b;
+        return c;
     }
 }
