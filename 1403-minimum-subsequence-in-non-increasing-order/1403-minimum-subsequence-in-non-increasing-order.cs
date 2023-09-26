@@ -8,16 +8,13 @@ public class Solution {
 
         IList<int> res = new List<int>();
 
-        foreach (var num in nums)
+        for(int i = 0; i < nums.Length; i++)
         {
-            currSum += num;
-            res.Add(num);
-            int diff = sum - currSum;
-
-            if (currSum > diff)
-            {
-                break;
-            }
+            if (sum < currSum) break;
+            else res.Add(nums[i]);
+            
+            currSum += nums[i];
+            sum -= nums[i];
         }
 
         return res;
