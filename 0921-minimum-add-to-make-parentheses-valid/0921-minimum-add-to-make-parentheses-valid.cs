@@ -1,19 +1,22 @@
 public class Solution {
     public int MinAddToMakeValid(string s) {
-        Stack<char> st = new();
-        
-        int count=0;
-        
-        for(int i = 0; i < s.Length; i++){
-            if(s[i] == ')') {
-                if(st.Count == 0)
-                    count++;
-                else if(st.Peek() == '(')
-                      st.Pop();
-            }
-            else if(s[i]=='(')
-                st.Push(s[i]);
+      int result = 0;
+        int count = 0;
+        foreach(char c in s){
+            if (c.ToString() == "(")
+                count++;
+            else if (c.ToString() == ")")
+                count--;
+            
+            if (count < 0){ // missing bracket (unbalanced)
+                result++;
+                count = 0;
+            }  
         }
-        return st.Count+count;
+        
+        if (count > 0)
+           result += count;
+
+        return result;
     }
 }
