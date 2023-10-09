@@ -23,13 +23,10 @@ public class Solution {
             return m;
         }
         
-        var key = $"{m}-{n}";
         if(dp[m,n] != -1) {
             return dp[m,n];
         }
-        
-        //map.Add(key, -1);
-        
+                
         if(word1[m-1] == word2[n-1]) { // chars are equal
             dp[m,n] =  MinDistance(word1, word2, m-1, n-1, dp);
         } else {
