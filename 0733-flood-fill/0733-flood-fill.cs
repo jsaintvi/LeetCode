@@ -19,14 +19,14 @@ public class Solution {
         int rowCount = image.Length;
         int colCount = image[0].Length;
         
-        Stack<Point> st = new();
-        st.Push(new Point(sr, sc));
+        Queue<Point> q = new();
+        q.Enqueue(new Point(sr, sc));
         
-        while(st.Count > 0) {
+        while(q.Count > 0) {
             
-            int row = st.Peek().X;
-            int col = st.Peek().Y;
-            st.Pop();
+            int row = q.Peek().X;
+            int col = q.Peek().Y;
+            q.Dequeue();
             
             // check for invalid i.e out of bounds cells
             if(row < 0 || row >= rowCount || col < 0 || col >= colCount) continue;
@@ -34,10 +34,10 @@ public class Solution {
                 // paint with new color and push adjacents to stack
                 image[row][col] = color;
                 
-                st.Push(new Point(row + 1, col));
-                st.Push(new Point(row - 1, col));
-                st.Push(new Point(row, col - 1));
-                st.Push(new Point(row, col + 1));
+                q.Enqueue(new Point(row + 1, col));
+                q.Enqueue(new Point(row - 1, col));
+                q.Enqueue(new Point(row, col - 1));
+                q.Enqueue(new Point(row, col + 1));
             }
         }
         
