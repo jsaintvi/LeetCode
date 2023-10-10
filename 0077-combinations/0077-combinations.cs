@@ -14,7 +14,7 @@ public class Solution {
             return;
         }
         
-        for(int i = start; i < end && (end-i + 1) >= (k - index); i++) {
+        for(int i = start; i < end ; i++) {
             temp.Add(i + 1);
             KCombine(temp, i + 1, end, k);
             
