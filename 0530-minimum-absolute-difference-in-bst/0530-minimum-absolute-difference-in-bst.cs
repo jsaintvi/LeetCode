@@ -12,21 +12,26 @@
  * }
  */
 public class Solution {
-    int minDiff = int.MaxValue;
-    int? prev = null;
     public int GetMinimumDifference(TreeNode root) {
 
-       if(root == null) {
-           return minDiff;
-       }
-        
-        GetMinimumDifference(root.left);
-        if(prev.HasValue) {
-            minDiff = Math.Min(minDiff, root.val - prev.Value);
+        Stack<TreeNode> st = new();
+        TreeNode curr = root;
+        TreeNode prev = null;
+        int minDiff = int.MaxValue;
+        while(curr != null || st.Count > 0) {
+            if(curr != null) {
+                st.Push(curr);
+                curr = curr.left;
+            } else {
+                curr = st.Pop();
+                if(prev != null){
+                    minDiff = Math.Min(minDiff, curr.val - prev.val);                    
+                }
+                
+                prev = curr;
+                curr = curr.right;
+            }
         }
-        
-        prev = root.val;
-        GetMinimumDifference(root.right);
         
         return minDiff;
     }
