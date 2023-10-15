@@ -2,11 +2,11 @@ public class Solution {
     public int LongestOnes(int[] nums, int k) {
         int n = nums.Length;
         
-        int l = 0;
+        int l = 0, r = 0;
         
         int maxOnes = 0;
         int zeroCount = 0;
-        for(int r = 0; r < n; r++) {
+        while(r < n) {
             if(nums[r] == 0) {
                 zeroCount += 1;
             }
@@ -20,6 +20,8 @@ public class Solution {
             }
             
             maxOnes = Math.Max(maxOnes, r - l + 1);
+            
+            r++;
         }
         
         return maxOnes;
