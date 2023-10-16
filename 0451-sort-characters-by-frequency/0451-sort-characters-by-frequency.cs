@@ -1,32 +1,22 @@
 public class Solution {
     public string FrequencySort(string s) {
 
-        Dictionary<char, int> freqMap = new();
-        Dictionary<char, int> firstIndexMap = new();
+        Dictionary<char, UniqueChar> freqMap = new();
         
         int n = s.Length;
         for(int i = 0; i < n; i++) {
             char c = s[i];
             if(!freqMap.ContainsKey(s[i])) {
                 
-                freqMap.Add(c, 1);
-                firstIndexMap.Add(c, i);
+                freqMap.Add(c, new UniqueChar() {Char = c, FreqCount = 1, FirstIndex = i});
             } else {
-                freqMap[c] += 1;
+                freqMap[c].FreqCount += 1;
             }
         }
         
-        List<UniqueChar> chars = new();
+        List<UniqueChar> chars = freqMap.Values.ToList();
         
-        foreach(KeyValuePair<char,int> kv in freqMap) {
-            var c = new UniqueChar() {
-                Char = kv.Key,
-                FreqCount = kv.Value,
-                FirstIndex = firstIndexMap[kv.Key]
-            };
-            
-            chars.Add(c);
-        }
+
         
         chars.Sort((x,y) => {
             if(x.FreqCount != y.FreqCount) {
