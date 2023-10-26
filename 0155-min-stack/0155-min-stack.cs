@@ -15,13 +15,16 @@ public class MinStack {
     }
     
     public void Push(int x) {
+        int min;
         if(stack.Count == 0) { // empty
-            stack.Push(new Pair(x, x));
+            min = x;
         } else{
             Pair stackTop = stack.Peek();
             
-            stack.Push(new Pair(x, Math.Min(x, stackTop.Min)));
+            min = Math.Min(x, stackTop.Min);
         }
+        
+        stack.Push(new Pair(x, min));
     }
     
     public void Pop() {
