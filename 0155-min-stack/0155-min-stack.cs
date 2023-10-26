@@ -1,42 +1,42 @@
 public class MinStack {
-    private class Pair {
+    private class Node {
         public int Val {get;}
         public int Min{get;}
         
-        public Pair(int val, int minElem) {
+        public Node Next {get;set;}
+        
+        public Node(int val, int minElem, Node next = null) {
             this.Val = val;
             this.Min = minElem;
+            Next = next;
         }
     }
 
-    Stack<Pair> stack;
+    Node head = null;
     public MinStack() {
-        stack = new();
+        head = null;
     }
     
     public void Push(int x) {
         int min;
-        if(stack.Count == 0) { // empty
-            min = x;
-        } else{
-            Pair stackTop = stack.Peek();
-            
-            min = Math.Min(x, stackTop.Min);
-        }
         
-        stack.Push(new Pair(x, min));
+        if(head == null) {
+            head = new Node(x, x);
+        } else {
+            head = new Node(x, Math.Min(head.Min, x), head);
+        }
     }
     
     public void Pop() {
-        stack.Pop();
+        head = head.Next;
     }
     
     public int Top() {
-        return stack.Peek().Val;
+        return head.Val;
     }
     
     public int GetMin() {
-        return stack.Peek().Min;
+        return head.Min;
     }
 }
 
