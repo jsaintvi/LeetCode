@@ -1,36 +1,28 @@
 public class Solution {
     public int ThirdMax(int[] nums) {
-        HashSet<int> s = new(nums);
+        //HashSet<int> s = new(nums);
+        SortedSet<int> s = new();
         
-        return FindKMax(s, 3);
-    }
-    
-    private int FindKMax(HashSet<int> s, int k) {
-        int maxNum = Int32.MinValue;
-        
-        PriorityQueue<int,int> pq = new ();
-        foreach(var n in s){
-            pq.Enqueue(n,n);
+        foreach(var n in nums) {
+            if(s.Contains(n))
+                continue;
             
-            if(pq.Count > 3)
-                pq.Dequeue();
-        }
-        
+            if(s.Count == 3) {
+                if(s.Min < n) {
+                    s.Remove(s.Min());
+                    s.Add(n);
+                }
 
-        if(pq.Count ==1)
-            return pq.Peek();
-        else if(pq.Count == 2) {
-            int firstNum = pq.Dequeue();
+            } else{
+               s.Add(n); 
+            }
             
-            return Math.Max(firstNum, pq.Peek());
         }
         
-        return  pq.Peek();
+        if(s.Count == 3)
+            return s.Min();
+        
+        return s.Max();
     }
-    
-    private class MaxComparer : IComparer<int> {
-        public int Compare(int x, int y) {
-            return y-x;
-        }
-    }
+
 }
