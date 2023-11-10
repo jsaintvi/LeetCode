@@ -1,11 +1,7 @@
 public class Solution {
     public IList<int> TopStudents(string[] positive_feedback, string[] negative_feedback, string[] report, int[] student_id, int k) {
         int n = student_id.Length;
-        ScoreInfo [] overallFeedback = new ScoreInfo[n];
-        for(int i = 0; i < n; i++)
-        {
-            overallFeedback[i] = new ScoreInfo(i, 0, student_id[i]);
-        }
+        int [] overallFeedback = new int[n];
         
         var posFeedbackSet = new HashSet<string>(positive_feedback);
         var negFeedbackSet = new HashSet<string>(negative_feedback);
@@ -16,52 +12,45 @@ public class Solution {
             
             foreach (var currWord in reportArr) {
                 if(posFeedbackSet.Contains(currWord))
-                    overallFeedback[i].Score += 3;
+                    overallFeedback[i] += 3;
                 
                 if(negFeedbackSet.Contains(currWord))
-                    overallFeedback[i].Score -= 1;
+                    overallFeedback[i] -= 1;
             }
         }
+                
+        var pq = new PriorityQueue<ScoreInfo,ScoreInfo>(new ScoreComparer());
         
-        
-        
-        Array.Sort(overallFeedback, (x,y) =>{
-            return y.Score == x.Score ? 
-                x.StudentId.CompareTo(y.StudentId) 
-                : y.Score.CompareTo(x.Score);
-        });
-        
-        // PrintFeedback(overallFeedback);
+        for(int i = 0; i < overallFeedback.Length; i++) {
+            var scoreInfo = new ScoreInfo(overallFeedback[i], student_id[i]);
+            pq.Enqueue(scoreInfo, scoreInfo);;
+        }
         
         List<int> ans = new();
-        for(int i = 0; i < k; i++)
-            ans.Add(overallFeedback[i].StudentId);
-        
+        int pos = 0;
+        while(pq.Count > 0 && pos < k) {
+            var score = pq.Dequeue();
+            ans.Add(score.StudentId);
+            pos += 1;
+        }
         
         return ans;
     }
     
-    
-    private void PrintFeedback(ScoreInfo[] feedback)
-    {
-        Console.WriteLine("----------------PRINTING FEEDBACK--------------");
-        for(int i = 0; i < feedback.Length; i++)
-        {
-            var studentFeedback = feedback[i];
-            Console.WriteLine($"Student {studentFeedback.StudentId}: {studentFeedback.Score}");
+    private class ScoreComparer : IComparer<ScoreInfo> {
+        public int Compare(ScoreInfo x, ScoreInfo y) {
+            return y.Score == x.Score ? 
+                x.StudentId.CompareTo(y.StudentId) 
+                : y.Score.CompareTo(x.Score);
         }
-        
-        Console.WriteLine("----------------END----------------------------");
     }
     
     private class ScoreInfo
     {
-        public int Idx {get;}
-        public int Score {get; set;}
+        public int Score {get;}
         public int StudentId {get;}
         
-        public ScoreInfo(int idx, int score, int studentId){
-            this.Idx = idx;
+        public ScoreInfo(int score, int studentId){
             this.Score = score;
             this.StudentId = studentId;
         }
