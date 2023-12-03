@@ -1,16 +1,11 @@
 public class Solution {
     public int[] Intersection(int[] nums1, int[] nums2) {
-        var setOne = new HashSet<int>(nums1);
-        var setTwo = new HashSet<int>(nums2);
+        HashSet<int> s1 = new(nums1);
+        HashSet<int> s2 = new(nums2);
         
-        var result = new List<int>();
-
-        foreach (var item in setOne)
-        {
-            if(setTwo.Contains(item))
-                result.Add(item);
-        }
-
-        return result.ToArray();
+        s1.IntersectWith(s2);
+        
+        return s1.ToArray();
+        
     }
 }
