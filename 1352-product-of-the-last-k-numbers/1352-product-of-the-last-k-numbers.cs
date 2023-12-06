@@ -1,29 +1,35 @@
 public class ProductOfNumbers {
 
-    List<int> lst;
-    int product = 1;
+    List<int> list;
+     
     public ProductOfNumbers() {
-        lst = new();
+        list = new List<int>();
     }
     
     public void Add(int num) {
-        lst.Add(num);
+         if(num==0){
+             list.Clear();
+         }else{
+             if(list.Count==0){
+                 list.Add(num);
+             }else{ 
+                 var a = list[list.Count-1]*num;
+                 list.Add(a);
+             }
+         }
+        
     }
-    
+
     public int GetProduct(int k) {
-        int prod = 1;
-        
-        int pos = lst.Count - 1;
-        
-        int count = 1;
-        while(count <= k) {
-            prod *= lst[pos];
-            
-            pos--;
-            count++;
+         int index = list.Count-k;
+        if(index<0){
+            return 0;
         }
-        
-        return prod;
+        else if(index==0){
+            return list[list.Count-1];
+        }else{
+            return list[list.Count-1]/list[index-1];
+        }
     }
 }
 
