@@ -2,25 +2,24 @@ public class Solution
 {
     public int[] CountPoints(int[][] points, int[][] queries)
     {
-        List<(double x, double y, int count)> circles = new List<(double x, double y, int count)>();
+        Array.Sort(points, (p1, p2) => p1[0].CompareTo(p2[0]));
+        
         int[] result = new int[queries.Length];
         for (int i = 0; i < queries.Length; i++)
         {
-            int x = queries[i][0];
-            int y = queries[i][1];
-            int r = queries[i][2];
-            
+            double x = queries[i][0];
+            double y = queries[i][1];
+            double r = queries[i][2];
             int count = 0;
-            foreach (var point in points)
+            int j = 0;
+            while (j < points.Length && points[j][0] <= x + r)
             {
-                var xp = point[0];
-                var yp = point[1];
-                // calc distance  between the 2 points
-                double d = Math.Sqrt(Math.Pow(xp - x, 2) + Math.Pow(yp - y, 2));
+                double d = Math.Sqrt(Math.Pow(points[j][0] - x, 2) + Math.Pow(points[j][1] - y, 2));
                 if (d <= r)
                 {
                     count++;
                 }
+                j++;
             }
             
             result[i] = count;
