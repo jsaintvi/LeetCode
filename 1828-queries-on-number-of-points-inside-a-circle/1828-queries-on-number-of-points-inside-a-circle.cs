@@ -3,6 +3,7 @@ public class Solution
     public int[] CountPoints(int[][] points, int[][] queries)
     {
         List<(double x, double y, int count)> circles = new List<(double x, double y, int count)>();
+        int[] result = new int[queries.Length];
         for (int i = 0; i < queries.Length; i++)
         {
             int x = queries[i][0];
@@ -21,9 +22,10 @@ public class Solution
                     count++;
                 }
             }
-            circles.Add((x, y, count));
+            
+            result[i] = count;
         }
 
-        return circles.Select(circle => circle.count).ToArray();
+        return result;
     }
 }
