@@ -8,27 +8,25 @@ class Employee {
 */
 
 class Solution {
+    private Dictionary<int, Employee> employees;
+    
     public int GetImportance(IList<Employee> employees, int id) {
-        // find the emplyee with such id
-        // loop thru its sbordinates and add to the total recursively
-                
-        var employeeMap = new Dictionary<int, Employee>();
-        
-        foreach(var employee in employees)
-            employeeMap.Add(employee.id, employee);
-        
-        return DFS(id, employeeMap);
+        this.employees = new Dictionary<int, Employee>();
+        foreach (var employee in employees) {
+            this.employees.Add(employee.id, employee);
+        }
+        return CalculateTotalImportance(id);
     }
     
-    private int DFS(int eId, Dictionary<int, Employee> map) {
-        Employee employee = map[eId];
-        
-        int ans = employee.importance;
-        
-        foreach(var subordinate in employee.subordinates) {
-            ans+= DFS(subordinate, map);
+    private int CalculateTotalImportance(int id) {
+        if (!employees.ContainsKey(id)) {
+            return 0;
         }
-        
-        return ans;
+        var employee = employees[id];
+        int totalImportance = employee.importance;
+        foreach (var subId in employee.subordinates) {
+            totalImportance += CalculateTotalImportance(subId);
+        }
+        return totalImportance;
     }
 }
