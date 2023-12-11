@@ -11,22 +11,24 @@ class Solution {
     public int GetImportance(IList<Employee> employees, int id) {
         // find the emplyee with such id
         // loop thru its sbordinates and add to the total recursively
+                
+        var employeeMap = new Dictionary<int, Employee>();
         
-        int total = 0;
+        foreach(var employee in employees)
+            employeeMap.Add(employee.id, employee);
         
-        var q = new Queue<int>();
-        q.Enqueue(id);
+        return DFS(id, employeeMap);
+    }
+    
+    private int DFS(int eId, Dictionary<int, Employee> map) {
+        Employee employee = map[eId];
         
-        while(q.Count > 0) {
-            var curr = q.Dequeue();
-            var employee = employees.First(x => x.id == curr);
-            
-            total += employee.importance;
-            
-            if(employee.subordinates != null && employee.subordinates.Any())
-                foreach(var subordinate in employee.subordinates)
-                 q.Enqueue(subordinate);
+        int ans = employee.importance;
+        
+        foreach(var subordinate in employee.subordinates) {
+            ans+= DFS(subordinate, map);
         }
-        return total;
+        
+        return ans;
     }
 }
