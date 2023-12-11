@@ -1,20 +1,20 @@
 public class Solution {
     public int[] RowAndMaximumOnes(int[][] mat) {
-        int[] ans = new int[2] {-1,-1};
-        
-        for(int row = 0; row < mat.Length; row++) {
-            int maxOnes = 0;
-            
-            for(int col = 0; col < mat[0].Length; col++) {
-                if(mat[row][col] == 1)
-                    maxOnes +=1;
+        int max = -1;
+        int rowIndex = -1;
+
+        for(int i = 0; i < mat.Length; i++) {
+            int count = 0;
+            for(int j = 0; j < mat[i].Length; j++) {
+                if(mat[i][j] == 1) count++;
             }
             
-            if(ans[1] < maxOnes) {
-                ans[0] = row;
-                ans[1] = maxOnes;
+            if(count > max) {
+                max = count;
+                rowIndex = i;
             }
         }
-        return ans;
+
+        return new int[]{rowIndex, max};
     }
 }
