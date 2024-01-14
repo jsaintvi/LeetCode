@@ -4,21 +4,35 @@ public class Solution {
         public int Count {get;set;}
     }
     public int FirstUniqChar(string s) {
-        Dictionary<char, CharInfo> map = new();
-        for(int i = 0; i < s.Length; i++) {
-            var c = s[i];
-            if(!map.ContainsKey(c))
-                map.Add(c, new CharInfo() {Index = i, Count = 0});
-            
-            map[c].Count += 1;
-        }
-        
-        foreach(var kv in map)
+        if (string.IsNullOrEmpty(s))
         {
-            var c = kv.Value;
-            if(c.Count == 1)
-                return c.Index;
+            return -1;
         }
-        return -1;
+
+        Dictionary<char, int> charCount = new Dictionary<char, int>();
+
+        // Count occurrences of each character in the string
+        foreach (char c in s)
+        {
+            if (charCount.ContainsKey(c))
+            {
+                charCount[c]++;
+            }
+            else
+            {
+                charCount[c] = 1;
+            }
+        }
+
+        // Find the first non-repeating character and return its index
+        for (int i = 0; i < s.Length; i++)
+        {
+            if (charCount[s[i]] == 1)
+            {
+                return i;
+            }
+        }
+
+        return -1; // No unique character found
     }
 }
