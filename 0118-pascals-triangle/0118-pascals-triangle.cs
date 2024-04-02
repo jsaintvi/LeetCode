@@ -1,51 +1,33 @@
 public class Solution {
     public IList<IList<int>> Generate(int numRows) {
-        List<IList<int>> ans = new();
+        IList<IList<int>> triangle = new List<IList<int>>();
         
-        ans.Add(new List<int> {1});
+        if (numRows == 0)
+            return triangle;
         
-        if(numRows == 1)
-        {
-            return ans;
-        }
+        // Initialize the first row with 1
+        IList<int> firstRow = new List<int>();
+        firstRow.Add(1);
+        triangle.Add(firstRow);
         
-        ans.Add(new List<int> {1,1});
-
-        for(int i = 2; i < numRows; i++)
-        {
-            var curr = new List<int>();
-            curr.Add(1);
-
-            var lastRow = ans.Last();
-            //PrintLst(lastRow);
-            int j = 0; 
-            int k = 1;
-
-            while(k < lastRow.Count())
-            {
-                curr.Add(lastRow[j] + lastRow[k]);
-
-                j++;
-                k++;
+        for (int i = 1; i < numRows; i++) {
+            IList<int> prevRow = triangle[i - 1];
+            IList<int> currRow = new List<int>();
+            
+            // The first element of each row is always 1
+            currRow.Add(1);
+            
+            // Calculate the elements in the current row based on the previous row
+            for (int j = 1; j < i; j++) {
+                currRow.Add(prevRow[j - 1] + prevRow[j]);
             }
-
-            curr.Add(1);
-
-            ans.Add(curr);
+            
+            // The last element of each row is always 1
+            currRow.Add(1);
+            
+            triangle.Add(currRow);
         }
         
-        
-        return ans;
-    }
-    
-    void PrintLst(IList<int> lst)
-    {
-        Console.WriteLine("---------PRINTING-----------");
-        foreach(var num in lst)
-        {
-            Console.Write($"{num}--");
-        }
-        
-        Console.WriteLine("------------END-------------");
+        return triangle;
     }
 }
